@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>NYM Moderator</title>
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/redmond/jquery-ui.css"> 
+		<link rel="stylesheet" href="css/core.css">
+		<script type="text/javascript">
+
+			var NYMCONFIG = {
+				membership:{
+					service:'echo'
+				},
+				environments:{
+					grubstreet:{
+						dev:'grubstreet.dev.nymag.biz',
+						stg:'stg.grubstreet.com',
+						qa:'qa.grubstreet.com',
+						prod:'grubstreet.com'
+					},
+					nymag:{
+						dev:'dev.nymag.biz',
+						stg:'stg.nymetro.com',
+						qa:'qa.nymetro.com',
+						prod:'nymag.com'
+					}			
+				},
+				appKey:{
+					dev:'test.js-kit.com',
+					stg:'test.js-kit.com',
+					qa:'test.js-kit.com',
+					prod:'test.js-kit.com',
+				}
+			}
+			
+
+			
+
+		</script>	
+			
+	</head>
+	<body data-query='{"scope":"","children":"","before":"","after":"","itemsPerPage":100,"sortOrder":"reverseChronological","markers":"","tags":"","state":"","userId":"","showModerated":"","showDeleted":"","showBanned":""}'>
+	<div id="wrap">
+
+		<div id="contentWrap" class="clearfix">
+			<div id="filterWrap">
+				
+				<div id="echo-login-form"></div>
+
+<div id="filters">
+
+
+<section id="tabs-blogSearch" class="radios clearfix">
+	<h3>Source</h3>
+	<label><input type="radio" name="source" data-website="nymag" value="/*" checked>NYMag.com</label>
+	<label><input type="radio" name="source" data-customScope="nymag-sans-blogs" value="/*">NYMag.com sitewide, sans blogs</label>
+	<label><input type="radio" name="source" data-customScope="nymag-all-blogs" value="/*">All NYMag.com Blogs + Grubstreet NY</label>
+	<label><input type="radio" name="source" data-website="nymag" value="/daily/fashion/*">The Cut</label>
+	<label><input type="radio" name="source" data-website="nymag" value="/daily/intel/*">Daily Intel</label>
+	<label><input type="radio" name="source" data-website="nymag" value="/daily/sports/*">The Sports Section</label>
+	<label><input type="radio" name="source" data-website="nymag" value="/daily/entertainment/*">Vulture</label>
+	<br />
+	<label><input type="radio" name="source" data-customScope="grubstreet.com" value="/*">Grubstreet.com</label>
+	<label><input type="radio" name="source" data-website="grubstreet" data-subdomain="boston" value="/*">Grub Street Boston</label>
+	<label><input type="radio" name="source" data-website="grubstreet" data-subdomain="chicago" value="/*">Grub Street Chicago</label>
+	<label><input type="radio" name="source" data-website="grubstreet" data-subdomain="losangeles" value="/*">Grub Street Los Angeles</label>
+	<label><input type="radio" name="source" data-website="grubstreet" data-subdomain="newyork" value="/*">Grub Street New York</label>
+	<label><input type="radio" name="source" data-website="grubstreet" data-subdomain="philadelphia" value="/*">Grub Street Philadelphia</label>
+	<label><input type="radio" name="source" data-website="grubstreet" data-subdomain="sanfrancisco" value="/*">Grub Street San Francisco</label>
+</section>			
+	
+	
+
+
+<section id="datePicker" class="clearfix">
+<h3>Date Range</h3>
+	<div class="inputWrp">
+		<label for="from">After</label>
+		<input type="text" id="from" name="from"/>
+	</div>
+	<div class="inputWrp">
+		<label for="to">Before</label>
+		<input type="text" id="to" name="to"/>
+	</div>
+	<div class="clearfix">
+		<input type="submit" id="filterByDate" value="Search">
+		<input type="reset" id="resetByDate" value="Reset">
+	</div>
+</section><!-- End datepicker -->
+<!--
+<section id="flags" class="checkboxes">
+	<h3>Flags</h3>
+	<label><input type="checkbox" name="flags" id="flag_CommunityFlagged" value="CommunityFlagged">&nbsp;Community Flagged</label>
+	<label><input type="checkbox" name="flags" id="flag_SystemFlagged" value="SystemFlagged">&nbsp;System Flagged</label>
+	<label><input type="checkbox" name="flags" id="flag_ModeratorFlagged" value="ModeratorFlagged">&nbsp;Moderator Flagged</label>
+</section>
+-->
+
+<section id="markers" class="checkboxes">
+	<h3>Markers</h3>
+	<label><input type="checkbox" name="markers" id="markers_ep" value="ep">&nbsp;Editor's Pick</label>
+</section>
+
+
+<section id="moderated" class="radios">
+	<h3>Moderated Comments (Spam)</h3>
+	<label><input type="radio" name="moderated" id="moderated_on" value="">&nbsp;Visible</label>
+	<label><input type="radio" name="moderated" id="moderated_off" value="-state:ModeratorFlagged" checked>&nbsp;Hidden</label>
+</section>
+
+<section id="deleted" class="radios">
+	<h3>Deleted Comments</h3>
+	<label><input type="radio" name="deleted" id="deleted_on" value="">&nbsp;Visible</label>
+	<label><input type="radio" name="deleted" id="deleted_off" value="-state:ModeratorDeleted" checked>&nbsp;Hidden</label>
+</section>
+
+<section id="banned" class="radios">
+	<h3>Banned Users</h3>
+	<label><input type="radio" name="banned" id="banned_on" value="">&nbsp;Visible</label>
+	<label><input type="radio" name="banned" id="banned_off" value="-user.state:ModeratorBanned" checked>&nbsp;Hidden</label>
+</section>
+
+<section id="sortOrder" class="radios">
+	<h3>Sort Order</h3>
+	<label><input type="radio" name="sortOrder" id="sortOrder_reverseChronological" value="reverseChronological" checked>&nbsp;New</label>
+	<label><input type="radio" name="sortOrder" id="sortOrder_chronological" value="chronological">&nbsp;Old</label>
+</section>
+	
+				
+<section id="threading" class="radios">
+	<h3>Threading</h3>
+	<label><input type="radio" name="threading" id="threading_on" value="100">&nbsp;On</label>
+	<label><input type="radio" name="threading" id="threading_off" value="0" checked>&nbsp;Off</label>
+</section>
+
+
+	
+</div>
+
+			</div><!-- end/ -->
+			<div id="commentThreadView">
+				<header>
+					<hgroup>
+						<h3>Displaying <span id="queryWhat"></span> comments on <span id="queryScope"></span>					<button id="refresh">Refresh</button></h3>
+						<h5 id="displayQuery" class="debug">Query: <span></span></h5>
+						<a id="showHideQuery" href="#">Show Query [+]</a>
+					</hgroup>
+					<section id="userSearch">
+						<div id="userSearchControls">
+							<!-- <label for="userSearchType_nym"><input type="radio" name="userSearchType" id="userSearchType_nym" value="userSearchType_idUrl" checked>NYM User</label><label for="userSearchType_idUrl"><input type="radio" name="userSearchType" id="userSearchType_idUrl" value="userSearchType_idUrl">Id Url</label>-->
+							<label for="userSearchInput">Search NYM Users or ID URL</label>
+							<input type="text" name="userSearchInput" id="userSearchInput" placeholder="rebeccarose2004">
+							<input type="submit" id="userSearchSubmit" value="Go">
+							<img src="http://images.nymag.com/gfx/ico/ajax-loader-img.gif" id="nymSearchLoader" />
+						</div>
+						<div id="userSearchMessage"><span></span></div>
+						<div id="userSearchResults">
+							<img src="img/close.png" alt="close" id="close-searchResults">
+							<div class="inner">
+								<h5><span id="totalResults"></span></h5>
+								<table cellpadding="0" cellspacing="0">
+									<thead>
+										<tr>
+											<th class="user">User</th>
+											<th class="name">Name</th>
+											<th class="email">Email</th>
+											<th class="state">State</th>
+											<th class="role">Role</th>
+											<th class="markers">Markers</th>
+											<th class="probation">Probation</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</section>
+				</header>
+			<div id="commentTabs" class="tabs clearfix">
+				<ul id="commentTabsTabs">
+					<li data-query='{"state":"-state:ModeratorApproved","userId":"","tags":"report-spam,report-offensive22,report-duplicate,report-offtopic"}'><a href="#communityflagged">Community Flagged</a></li>
+					<li data-query='{"state":"state:SystemFlagged","userId":"","tags":""}'><a href="#systemflagged">System Flagged</a></li>
+					<li data-query='{"state":"","userId":"","tags":""}'><a href="#allcomments">All Comments</a></li>
+				</ul>
+				<div id="communityflagged"></div>
+				<div id="systemflagged"></div>
+				<div id="allcomments"></div>
+			</div>
+					
+				<div id="echo-comments">
+					<div id="userInfo" class="clearfix">
+						<div id="userState">
+							<input type="radio" id="userState_Untouched" name="userState" value="Untouched" checked /><label for="userState_Untouched">OK</label>
+							<input type="radio" id="userState_ModeratorBanned" name="userState" value="ModeratorBanned" /><label for="userState_ModeratorBanned">Banned</label>
+							<input type="radio" id="userState_nymProbation" name="userState" value="nymProbation" /><label for="userState_nymProbation">Probation <span id="probExp">Expires:</span> <span id="probExpDate"></span></label>
+						</div>
+						<div id="userProbation" style="display:none;">
+							<input type="radio" id="userProbation_7" name="userProbation" value="7days" checked /><label for="userProbation_7">7 days</label><br>
+							<input type="radio" id="userProbation_30" name="userProbation" value="30days"  /><label for="userProbation_30">30 days</label><br>
+							<input type="radio" id="userProbation_i" name="userProbation" value="indefinitely" /><label for="userProbation_i">Indefinitely</label><br><br>
+							<input id="probationSubmit" value="Submit" type="submit">
+						</div>
+						<div id="userRole">
+							<input type="radio" id="userRole_Untouched" name="userRole" value="untouched" checked /><label for="userRole_Untouched">User</label>
+							<input type="radio" id="userRole_Moderator" name="userRole" value="administrator" /><label for="userRole_Moderator">Moderator</label>
+						</div>
+						<!--<div id="userState">
+							<label>State</label>
+							<p>Current State:&nbsp;<span class="current"></span></p>
+							<select id="userStateSelect" name="userState">
+								<option value="null">Select One...</option>
+								<option value="Untouched">Default</option>administrator
+								<option value="ModeratorDeleted">Deleted</option>
+								<option value="ModeratorBanned">Banned</option>
+								<option value="ModeratorApproved">Approved</option>
+							</select>
+						</div>
+						<div id="userRole">
+							<label>Roles</label>
+							<p>Current Role:&nbsp;<span class="current"></span></p>
+							<select id="userRolesSelect" name="userRoles">
+								<option value="null">Select One...</option>
+								<option value="Untouched">Default</option>
+								<option value="moderator">Moderator</option>
+								<option value="administrator">Administrator</option>
+							</select>
+						</div>
+						<div id="userMarkers">
+							<label>Markers</label>
+							<p>Current Markers:&nbsp;<span class="current"></span></p>
+							<select id="userMarkersSelect" name="userMarkers">
+								<option value="null">Select One...</option>
+								<option value="nym">NYM Employee</option>
+							</select>
+						</div>-->
+						<div>
+							<input type="submit" id="userUpdate" value="Update">
+						</div>
+						<div id="userInfoMessage"><span></span></div>
+					</div><!-- /end #userInfo -->
+					<div id="echo-stream"></div>
+				</div>
+
+			</div>
+		</div>	
+	</div>
+
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAibAOgG-5XUNtlk7ev-pl-hTj-hR_LAzuCHau329o6hSHm1LgARQbaD-mJdcgzUW02Ioq2w_LDh0Ssg"></script>
+<script type="text/javascript">
+				
+
+
+    google.load("jquery", "1.5");
+    google.load("jqueryui", "1.8.6");
+
+    function OnLoad() {
+		MOD.init();
+    }
+    
+    google.setOnLoadCallback(OnLoad);
+
+    //]]>
+    </script>
+	</body>
+</html>
